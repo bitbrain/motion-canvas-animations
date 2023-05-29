@@ -1,58 +1,33 @@
 import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
-import {Node, Circle, Grid, Line} from '@motion-canvas/2d/lib/components';
-import {all} from '@motion-canvas/core/lib/flow';
-import {Vector2} from '@motion-canvas/core/lib/types';
 import {createRef} from '@motion-canvas/core/lib/utils';
-import {createSignal} from '@motion-canvas/core/lib/signals';
-
-const RED = '#ff6470';
-const GREEN = '#99C47A';
-const BLUE = '#68ABDF';
+import {
+  CodeBlock,
+  edit,
+  insert,
+  lines,
+  remove,
+} from '@motion-canvas/2d/lib/components/CodeBlock';
+import {all, waitFor} from '@motion-canvas/core/lib/flow';
 
 export default makeScene2D(function* (view) {
-  const group = createRef<Node>();
-  const scale = createSignal(1);
+  const codeRef = createRef<CodeBlock>();
 
-  view.add(
-    <Node ref={group} x={-100}>
-      <Grid
-        width={1920*2}
-        height={1920*2}
-        spacing={() => scale() * 60*2}
-        stroke={'#444'}
-        lineWidth={1}
-        lineCap="square"
-        cache
-      />
-      <Circle
-        width={() => scale() * 120 * 2}
-        height={() => scale() * 120 * 2}
-        stroke={BLUE}
-        lineWidth={4}
-        startAngle={110}
-        endAngle={340}
-      />
-      <Line
-        stroke={RED}
-        lineWidth={4}
-        endArrow
-        arrowSize={10}
-        points={[Vector2.zero, () => Vector2.right.scale(scale() * 70 * 2)]}
-      />
-      <Line
-        stroke={GREEN}
-        lineWidth={4}
-        endArrow
-        arrowSize={10}
-        points={[Vector2.zero, () => Vector2.up.scale(scale() * 70 * 2)]}
-      />
-      <Circle width={40} height={40} fill="#fff" />
-    </Node>,
+  yield view.add(<CodeBlock ref={codeRef} code={`var myBool;`} />);
+
+  yield* codeRef().edit(1.2, false)`var myBool${insert(' = true')};`;
+  yield* waitFor(0.6);
+  yield* codeRef().edit(1.2)`var myBool = ${edit('true', 'false')};`;
+  yield* waitFor(0.6);
+  yield* all(
+    codeRef().selection(lines(0, Infinity), 1.2),
+    codeRef().edit(1.2, false)`var my${edit('Bool', 'Number')} = ${edit(
+      'false',
+      '42',
+    )};`,
   );
-
-  yield* group().position.x(100, 0.8);
-  yield* group().rotation(30, 0.8);
-  yield* scale(2, 0.8);
-  yield* group().position.x(-100, 0.8);
-  yield* all(group().rotation(0, 0.8), scale(1, 0.8));
+  yield* waitFor(0.6);
+  yield* codeRef().edit(1.2, false)`var myNumber${remove(' = 42')};`;
+  yield* waitFor(0.6);
+  yield* codeRef().edit(1.2, false)`var my${edit('Number', 'Bool')};`;
+  yield* waitFor(0.6);
 });

@@ -1,8 +1,8 @@
-import {Shape, ShapeProps, Line, signal, PossibleCanvasStyle} from '@motion-canvas/2d/lib';
-import {createRef, range} from '@motion-canvas/core';
+import {Shape, ShapeProps, Line, signal, PossibleCanvasStyle, Txt} from '@motion-canvas/2d/lib';
+import {createRef, range, PossibleVector2} from '@motion-canvas/core';
 import {canvasStyleSignal, CanvasStyleSignal} from '@motion-canvas/2d/lib/decorators/canvasStyleSignal';
 import {initial} from '@motion-canvas/2d';
-import {SignalValue, SimpleSignal} from '@motion-canvas/core/lib/signals';
+import {SignalValue, SimpleSignal, createSignal} from '@motion-canvas/core/lib/signals';
 
 export interface GridProps extends ShapeProps {
   // line width of the legend
@@ -14,7 +14,9 @@ export interface GridProps extends ShapeProps {
   ySteps?: SignalValue<number>;
   stepsVisible?: SignalValue<number>;
   stroke?: SignalValue<PossibleCanvasStyle>;
+  graphStroke?: SignalValue<PossibleCanvasStyle>;
   arrowSize?: SignalValue<number>;
+  graphVerticalOffset?: SignalValue<number>;
 }
 
 export class GraphPlot extends Shape {
@@ -47,6 +49,10 @@ export class GraphPlot extends Shape {
     @canvasStyleSignal()
     public declare readonly stroke: CanvasStyleSignal<this>;
 
+    @initial('#00c25b')
+    @canvasStyleSignal()
+    public declare readonly graphStroke: CanvasStyleSignal<this>;
+
     @initial(15)
     @signal()
     public declare readonly arrowSize: SimpleSignal<number, this>;
@@ -55,13 +61,27 @@ export class GraphPlot extends Shape {
     @signal()
     public declare readonly stepsVisible: SimpleSignal<number, this>;
 
+    @initial(0)
+    @signal()
+    public declare readonly graphVerticalOffset: SimpleSignal<number, this>;
+
   
     public constructor(props?: GridProps) {
       super(props);
 
       const lineX = createRef<Line>();
       const lineY = createRef<Line>();
+      const lineGraph = createRef<Line>();
 
+      const samples = 500;
+
+      const points:PossibleVector2[] = [];
+
+      const distance = this.xMax() / samples;
+
+      for (let i = 0; i < samples; ++i) {
+        points[i] = [-1800 + i * distance * 3, 0];
+      }
 
 
       this.add(
@@ -88,6 +108,22 @@ export class GraphPlot extends Shape {
             [0, -this.yMax()]
             ]}
           />
+          <Line // graph
+            y={this.graphVerticalOffset}
+            ref={lineGraph}
+            lineWidth={12}
+            stroke={this.graphStroke}
+            points={() => points}
+          >
+            <Txt
+              text={() => "f(x) = " + (-this.graphVerticalOffset() / 1000).toFixed(2).toString()}
+              position={[1000, -100]}
+              antialiased={true}
+              fontSize={90}
+              fill={this.graphStroke}
+              fontFamily={'Cascadia Code'}
+            />
+          </Line>
         </>
       );
 

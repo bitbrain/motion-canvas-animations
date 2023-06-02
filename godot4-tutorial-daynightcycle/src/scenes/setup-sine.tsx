@@ -1,5 +1,5 @@
 import {Grid, Layout, makeScene2D, Gradient} from '@motion-canvas/2d/lib';
-import {createRef, all, waitUntil, slideTransition, Direction} from '@motion-canvas/core';
+import {createRef, all, waitUntil} from '@motion-canvas/core';
 import { GraphPlot } from '../components/GraphPlot';
 
 export default makeScene2D(function* (view) {

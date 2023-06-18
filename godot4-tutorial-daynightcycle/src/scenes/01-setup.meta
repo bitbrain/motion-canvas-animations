@@ -1,0 +1,38 @@
+{
+  "version": 0,
+  "timeEvents": [
+    {
+      "name": "setup",
+      "targetTime": 2.8654970760233924
+    },
+    {
+      "name": "intro-full-night",
+      "targetTime": 5.881127717203604
+    },
+    {
+      "name": "intro-full-day",
+      "targetTime": 8.451755852230042
+    },
+    {
+      "name": "sine-move-up",
+      "targetTime": 19.352990420131274
+    },
+    {
+      "name": "sine-move-down-divide",
+      "targetTime": 20.826755182421987
+    },
+    {
+      "name": "at-point-zero",
+      "targetTime": 22.08423894794744
+    },
+    {
+      "name": "move-x-axis",
+      "targetTime": 33.2348797172776
+    },
+    {
+      "name": "substract-0.5pi",
+      "targetTime": 37.36838077038735
+    }
+  ],
+  "seed": 572379647
+}

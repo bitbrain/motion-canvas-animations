@@ -1,5 +1,5 @@
 import {Grid, Layout, makeScene2D, Line, Txt} from '@motion-canvas/2d/lib';
-import {createRef, range, createSignal, PossibleVector2, all} from '@motion-canvas/core';
+import {createRef, waitFor} from '@motion-canvas/core';
 
 export default makeScene2D(function* (view) {
 
@@ -10,4 +10,13 @@ export default makeScene2D(function* (view) {
    * representing the sun's low angle and the blue wavelengths
    *  not scattering far enough to reach the viewer.
    */
+
+  view.add(
+    <Layout>
+        <Txt
+           text={"Explain colors"}
+        />
+    </Layout>);
+
+    yield* waitFor(18.7);
 });

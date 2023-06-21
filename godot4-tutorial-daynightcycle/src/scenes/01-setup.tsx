@@ -6,6 +6,7 @@ export default makeScene2D(function* (view) {
 
   const layout = createRef<Layout>();
   const grid = createRef<Grid>();
+  const grid_large = createRef<Grid>();
 
   const xAxis = createRef<Line>();
   const yAxis = createRef<Line>();
@@ -20,6 +21,9 @@ export default makeScene2D(function* (view) {
     points[i] = [0, 0];
   }
 
+  // Grid settings
+  const gridColor = Color.createSignal('#252a3100');
+
   // Text settings
   const fontFamily = 'Cascadia Mono';
   const fontWeight = 1000;
@@ -33,10 +37,6 @@ export default makeScene2D(function* (view) {
   const graphColor = Color.createSignal('#DAE4ED');
   const lineStroke = Color.createSignal('#00c25b00');
 
-  // Current point settings
-  const currentPoint = createRef<Circle>();
-  const currentPointPercentage = createSignal(0.05);
-
   const lineFuncPoints = createSignal(() => {
     // recalculate point positions
     for (let i = 0; i < pointSamples; ++i) {
@@ -46,17 +46,26 @@ export default makeScene2D(function* (view) {
   });
 
   view.add(
-    <Layout ref={layout} scale={0.5} x={-700} y={150}>
+    <Layout ref={layout} scale={0.5} x={-0} y={200}>
       <Grid
         ref={grid}
         width={9000}
         height={7000}
-        stroke={'#353e4a55'}
+        stroke={gridColor}
         lineWidth={6}
         spacing={250.0}
-        x={1200}
+        x={1000}
       />
-      <>
+      <Grid
+        ref={grid_large}
+        width={9000}
+        height={7000}
+        stroke={'#252a31'}
+        lineWidth={6}
+        spacing={4 * 250.0}
+        x={1000}
+      />
+      <Layout x={-680}>
         <Circle // graph center
           fill={graphColor}
           closed={true}
@@ -110,14 +119,7 @@ export default makeScene2D(function* (view) {
           stroke={lineStroke}
           x={-pointDistance * 5025.0 * 0.075}
         />
-        <Circle // current point
-          ref={currentPoint}
-          fill={'#ffffff'}
-          size={44}
-          closed={true}
-          position={() => lineFunc().getPointAtPercentage(currentPointPercentage()).position}
-        />
-      </>
+      </Layout>
     </Layout>
    );
 
@@ -126,7 +128,11 @@ export default makeScene2D(function* (view) {
       * Let us visualize the 'intensity' of the night for a moment.
       * The x-axis represents time: 0 is full night, 1 is full day.
       */
-    yield* layout().scale(1.0, useDuration('setup'))
+    const setupDuration = useDuration('setup');
+    yield* all(
+      layout().scale(1.2, setupDuration),
+      gridColor('#252a31ff', setupDuration)
+    );
     yield* lineStroke('#00c25bff', 1.0)
     yield* pointOffsetY(0, useDuration('intro-full-night'));
     yield* pointOffsetY(-maxAltitude * 2, useDuration('intro-full-day'))
@@ -152,8 +158,6 @@ export default makeScene2D(function* (view) {
     /* At time 0 the value will be in the middle of our y axis, meaning the game will
      * start at dusk and gradually transition to day.
      */
-
-    yield* currentPointPercentage(0.0, useDuration('at-point-zero'));
 
     yield* waitFor(9.0);
 

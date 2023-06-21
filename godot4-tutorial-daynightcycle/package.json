@@ -7,8 +7,9 @@
     "build": "tsc && vite build"
   },
   "dependencies": {
-    "@motion-canvas/core": "^3.9.0",
+    "@ksassnowski/motion-canvas-camera": "^0.5.0",
     "@motion-canvas/2d": "^3.9.0",
+    "@motion-canvas/core": "^3.9.0",
     "@motion-canvas/ffmpeg": "^1.1.0"
   },
   "devDependencies": {

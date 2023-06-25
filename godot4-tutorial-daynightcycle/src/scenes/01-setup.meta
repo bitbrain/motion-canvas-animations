@@ -3,31 +3,75 @@
   "timeEvents": [
     {
       "name": "setup",
-      "targetTime": 2.8654970760233924
+      "targetTime": 1.6792069546174548
+    },
+    {
+      "name": "gradient-y-alpha",
+      "targetTime": 2.7372701727931004
+    },
+    {
+      "name": "intro-x-axis",
+      "targetTime": 4.247429356464752
+    },
+    {
+      "name": "gradient-x-alpha",
+      "targetTime": 5.380321809806864
     },
     {
       "name": "intro-full-night",
-      "targetTime": 5.881127717203604
+      "targetTime": 6.623502277701647
     },
     {
       "name": "intro-full-day",
-      "targetTime": 8.451755852230042
+      "targetTime": 8.301297071792035
+    },
+    {
+      "name": "reset-to-0",
+      "targetTime": 9.43991775776374
+    },
+    {
+      "name": "use-sine-function",
+      "targetTime": 10.424522370872712
+    },
+    {
+      "name": "transition-smoothly",
+      "targetTime": 12.273464873312815
+    },
+    {
+      "name": "transition-cleanup",
+      "targetTime": 13.148350491101164
+    },
+    {
+      "name": "y-value-between-0-1",
+      "targetTime": 16.151982750375875
+    },
+    {
+      "name": "hide-y-value-between",
+      "targetTime": 17.82968866736597
     },
     {
       "name": "sine-move-up",
-      "targetTime": 19.352990420131274
+      "targetTime": 19.491476176363445
     },
     {
       "name": "sine-move-down-divide",
-      "targetTime": 20.826755182421987
+      "targetTime": 20.16994165896213
+    },
+    {
+      "name": "point-at-time-0",
+      "targetTime": 21.679085803846412
+    },
+    {
+      "name": "gradually-transition-to-day",
+      "targetTime": 28.3435492686584
     },
     {
       "name": "move-x-axis",
-      "targetTime": 33.2348797172776
+      "targetTime": 33.168839816827
     },
     {
       "name": "substract-0.5pi",
-      "targetTime": 37.36838077038735
+      "targetTime": 36.225865758883174
     }
   ],
   "seed": 572379647

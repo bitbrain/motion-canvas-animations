@@ -18,34 +18,27 @@ import signalupcalldown_audio from '../audio/05-signal-up-call-down.wav';
 import emitsignalonly_audio from '../audio/06-call-signal-only-when-updating.wav';
 import setterbehavior_audio from '../audio/07-setter-skipped-in-ready-function.wav';
 
-/* 1. SETUP */
+/* 1. SETUP 
 export default makeProject({
   scenes: [setup],
   audio:setup_audio
 });
 /* */
 
-/* 2. MAP TO COLOR
+/* 2. MAP TO COLOR 
 export default makeProject({
   scenes: [colormap],
   audio:colormap_audio
 });
 /* */ 
 
-/* 3. COLORING
-export default makeProject({
-  scenes: [explaincolor],
-  audio:explaincolor_audio
-});
-/* */
-
-/* 4. MEASURING TIME
+/* 4. MEASURING TIME 
 export default makeProject({
   scenes: [caption_measuretime]
 });
 /* */
 
-/* 5. DIVIDE DAY INTO CHUNKS
+/* 5. DIVIDE DAY INTO CHUNKS */
 export default makeProject({
   scenes: [divideday],
   audio:divideday_audio

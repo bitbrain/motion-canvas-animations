@@ -1,5 +1,10 @@
 {
   "version": 0,
-  "timeEvents": [],
+  "timeEvents": [
+    {
+      "name": "map-to-color",
+      "targetTime": 3.8756985055230673
+    }
+  ],
   "seed": 3870051860
 }

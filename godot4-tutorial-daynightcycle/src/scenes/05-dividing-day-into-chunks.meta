@@ -1,5 +1,22 @@
 {
   "version": 0,
-  "timeEvents": [],
+  "timeEvents": [
+    {
+      "name": "setup",
+      "targetTime": 0
+    },
+    {
+      "name": "gradient-y-alpha",
+      "targetTime": 0
+    },
+    {
+      "name": "intro-x-axis",
+      "targetTime": 0
+    },
+    {
+      "name": "gradient-x-alpha",
+      "targetTime": 0
+    }
+  ],
   "seed": 446268694
 }

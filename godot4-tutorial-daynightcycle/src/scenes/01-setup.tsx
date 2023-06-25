@@ -78,7 +78,7 @@ export default makeScene2D(function* (view) {
   });
 
   view.add(
-    <Layout ref={layout} scale={0.5} x={-0} y={200}>
+    <Layout ref={layout} scale={0.5} x={-0} y={500}>
       <Grid
         ref={grid}
         width={9000}
@@ -172,9 +172,10 @@ export default makeScene2D(function* (view) {
       <CodeBlock
         ref={formula}
         fontFamily={fontFamily}
-        fontSize={120}
+        fontSize={70}
         language='gdscript'
-        y={580}
+        code={``}
+        y={260}
       />
     </Layout>
    );
@@ -186,7 +187,7 @@ export default makeScene2D(function* (view) {
       */
     const setupDuration = useDuration('setup');
     yield* all(
-      layout().scale(1.2, setupDuration),
+      layout().scale(1.5, setupDuration),
       gridColor('#252a31ff', setupDuration),
       graphXAlpha(0.2, setupDuration),
       graphYAlpha(1.0, setupDuration),
@@ -247,8 +248,18 @@ export default makeScene2D(function* (view) {
     /* Since the y value should always be between 0 and 1 we need to move the entire function up
      * by 1 unit and divide it by 2.
      */
-    yield* pointOffsetY(-maxAltitude * 2.0, useDuration('sine-move-up'))
-    yield* pointOffsetY(-maxAltitude, useDuration('sine-move-down-divide'))
+    const sineMoveUp = useDuration('sine-move-up');
+    yield* all(
+      pointOffsetY(-maxAltitude * 2.0, sineMoveUp),
+      formula().edit(sineMoveUp, false)`var time = (sin(time)${insert(' + 1.0')})`
+    );
+
+    
+    const sineMoveDownDivide = useDuration('sine-move-down-divide');
+    yield* all(
+      pointOffsetY(-maxAltitude, sineMoveDownDivide),
+      formula().edit(sineMoveDownDivide, false)`var time = (sin(time) + 1.0)${insert(' / 2.0')}`
+    );
 
 
     /* At time 0 the value will be in the middle of our y axis, meaning the game will
@@ -276,8 +287,12 @@ export default makeScene2D(function* (view) {
     
 
     /*To start at complete darkness, subtract 0.5 PI from the time value.*/
-
-    yield* lineFunc().x(lineFunc().x() - 100.0, useDuration('substract-0.5pi'))
+    const substractPi = useDuration('substract-0.5pi');
+    yield* all(
+      lineFunc().x(lineFunc().x() - 100.0, substractPi),
+      formula().edit(sineMoveDownDivide, false)`var time = (sin(time${insert(' - 0.5 * PI')}) + 1.0) / 2.0`
+    );
+   
 
     yield* waitFor(2.0);
 

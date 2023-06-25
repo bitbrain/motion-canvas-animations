@@ -55,23 +55,23 @@
     },
     {
       "name": "sine-move-down-divide",
-      "targetTime": 20.16994165896213
+      "targetTime": 20.759846587444883
     },
     {
       "name": "point-at-time-0",
-      "targetTime": 21.679085803846412
+      "targetTime": 22.268990732329165
     },
     {
       "name": "gradually-transition-to-day",
-      "targetTime": 28.3435492686584
+      "targetTime": 28.933454197141153
     },
     {
       "name": "move-x-axis",
-      "targetTime": 33.168839816827
+      "targetTime": 33.758744745309755
     },
     {
       "name": "substract-0.5pi",
-      "targetTime": 36.225865758883174
+      "targetTime": 36.81577068736593
     }
   ],
   "seed": 572379647

@@ -4,15 +4,6 @@ import {CodeBlock, insert, edit} from '@motion-canvas/2d/lib/components/CodeBloc
 
 export default makeScene2D(function* (view) {
 
-  /*
-   * Looking at our sine graph again we can divide the x axis
-   * of one complete day cycle into 1440 segments,
-   * each representing a minute in the day.
-   * Since x is our time axis, the full cycle of a day equals 2*PI.
-   * We can use this knowledge to our advantage
-   * to calculate the ingame to real time minute duration. 
-   */
-
   const layout = createRef<Layout>();
   const grid = createRef<Grid>();
   const grid_large = createRef<Grid>();
@@ -190,28 +181,34 @@ export default makeScene2D(function* (view) {
    );
 
 
-    /*
-      * Let us visualize the 'intensity' of the night for a moment.
-      * The x-axis represents time.
-      */
-    const setupDuration = useDuration('setup');
-    yield* all(
-      layout().scale(1.5, setupDuration),
-      gridColor('#252a31ff', setupDuration),
-      graphXAlpha(0.2, setupDuration),
-      graphYAlpha(1.0, setupDuration),
-      graphYLength(1.0, setupDuration)
-    );
-    
-    yield* graphYLabelAlpha(1.0, useDuration('gradient-y-alpha'));
-    
-    const introXAxisDuration = useDuration('intro-x-axis');
-    yield* all(
-      graphXAlpha(1.0, introXAxisDuration),
-      graphXLength(1.0, introXAxisDuration)
-    );
-    const gradientXAlpha = useDuration('gradient-x-alpha');
-    yield* all(
-      graphXLabelAlpha(1.0, gradientXAlpha),
-    );
+   const setupDuration = 4;
+   yield* all(
+     layout().scale(1.5, setupDuration),
+     gridColor('#252a31ff', setupDuration),
+     graphXAlpha(1.0, setupDuration),
+     graphYAlpha(1.0, setupDuration),
+     graphXLength(1.0, setupDuration),
+     graphYLength(1.0, setupDuration)
+   );
+   
+   const labelDuration = useDuration('label-alpha-duration');
+   yield* all(
+     graphXLabelAlpha(1.0, labelDuration),
+     graphYLabelAlpha(1.0, labelDuration)
+   );
+  
+ /*
+  * Looking at our sine graph again we can divide the x axis
+  * of one complete day cycle into 1440 segments,
+  * each representing a minute in the day.
+  * Since x is our time axis, the full cycle of a day equals 2*PI.
+  * We can use this knowledge to our advantage
+  * to calculate the ingame to real time minute duration. 
+  */
+   const gradientXAlpha = useDuration('gradient-x-alpha');
+   yield* all(
+     graphXLabelAlpha(1.0, gradientXAlpha),
+     altitude(1.0, gradientXAlpha)
+   );
+
 });

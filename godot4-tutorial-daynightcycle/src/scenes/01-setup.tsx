@@ -14,6 +14,7 @@ export default makeScene2D(function* (view) {
   const yAxisLabel = createRef<Txt>();
   const lineFunc = createRef<Line>();
   const yValueBoundaries = createRef<Line>();
+  const lineFuncText = createRef<Txt>();
 
   // Create point objects
   const pointSamples = 1000;
@@ -47,7 +48,9 @@ export default makeScene2D(function* (view) {
   const graphXLabelColor = () => new Color('#dae4ed00').alpha(graphXLabelAlpha());
   const graphYLabelColor = () => new Color('#dae4ed00').alpha(graphYLabelAlpha());
   const gradientAlpha = createSignal(0);
+  const funcTextAlpha = createSignal(1);
   const yBoundaryPercentage = createSignal(0.0);
+  const functionValue = createSignal(0.0);
 
   const gradient = new Gradient({
     type: 'linear',
@@ -151,6 +154,16 @@ export default makeScene2D(function* (view) {
           stroke={gradient}
           x={-pointDistance * 5025.0 * 0.075}
         />
+        <Txt
+          ref={lineFuncText}
+          fontFamily={fontFamily}
+          fontWeight={fontWeight}
+          fontSize={90}
+          fill={() => new Color('#f375ab').alpha(gradientAlpha() * funcTextAlpha())}
+          x={xAxisLabel().position.x}
+          y={() => pointOffsetY() -150}
+          text={() => 'f(t) = ' + functionValue().toFixed(2)}
+        />
         <Circle
             fill={pointColor}
             size={75}
@@ -216,12 +229,21 @@ export default makeScene2D(function* (view) {
        pointOffsetY(0, fullNightDuration),
     );
 
-    yield* pointOffsetY(-maxAltitude * 2, useDuration('intro-full-day'))
+    const fullDayDuration = useDuration('intro-full-day');
+    yield* all(
+      pointOffsetY(-maxAltitude * 2, fullDayDuration),
+      functionValue(1.0, fullDayDuration),
+    );
 
-    yield* pointOffsetY(0, useDuration('reset-to-0'))
+    const resetToZeroDuration = useDuration('reset-to-0');
+    yield* all(
+      pointOffsetY(0, resetToZeroDuration),
+      functionValue(0.0, resetToZeroDuration),
+    );
 
     const useSineFunctionDuration =  useDuration('use-sine-function');
     yield* all(
+      funcTextAlpha(0.0, useSineFunctionDuration),
       altitude(maxAltitude, useSineFunctionDuration),
       pointAlpha(1.0, useSineFunctionDuration)
     );

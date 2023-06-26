@@ -2,20 +2,12 @@
   "version": 0,
   "timeEvents": [
     {
-      "name": "setup",
-      "targetTime": 0
-    },
-    {
-      "name": "gradient-y-alpha",
-      "targetTime": 0
-    },
-    {
-      "name": "intro-x-axis",
-      "targetTime": 0
+      "name": "label-alpha-duration",
+      "targetTime": 5.1084070575298615
     },
     {
       "name": "gradient-x-alpha",
-      "targetTime": 0
+      "targetTime": 9.575243664717345
     }
   ],
   "seed": 446268694

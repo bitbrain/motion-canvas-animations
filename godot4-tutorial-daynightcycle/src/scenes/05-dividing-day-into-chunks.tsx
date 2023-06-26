@@ -1,5 +1,5 @@
 import {Grid, Layout, makeScene2D, Line, Txt, Circle, Gradient} from '@motion-canvas/2d/lib';
-import {createRef, createSignal, PossibleVector2, all, chain, Color, waitUntil, useDuration, waitFor} from '@motion-canvas/core';
+import {createRef, createSignal, PossibleVector2, all, chain, Color, range, useDuration, waitFor} from '@motion-canvas/core';
 import {CodeBlock, insert, edit} from '@motion-canvas/2d/lib/components/CodeBlock';
 
 export default makeScene2D(function* (view) {
@@ -13,7 +13,7 @@ export default makeScene2D(function* (view) {
   const xAxisLabel = createRef<Txt>();
   const yAxisLabel = createRef<Txt>();
   const lineFunc = createRef<Line>();
-  const yValueBoundaries = createRef<Line>();
+  const areaDescription = createRef<Txt>();
 
   // Create point objects
   const pointSamples = 1000;
@@ -22,13 +22,20 @@ export default makeScene2D(function* (view) {
     points[i] = [0, 0];
   }
 
+  // line points
+  const linePoints:PossibleVector2[] = [];
+  for (let i = 0; i < pointSamples; ++i) {
+    linePoints[i] = [0, 0];
+  }
+  const lineAlpha = createSignal(0.0);
+
   // Grid settings
   const gridColor = Color.createSignal('#252a3100');
 
   // Text settings
   const fontFamily = 'Cascadia Mono';
   const fontWeight = 1000;
-  const formula = createRef<CodeBlock>();
+  const areaDescriptionAlpha = createSignal(0.0);
 
   // Graph options
   const xAxisWidth = 1400;
@@ -73,6 +80,7 @@ export default makeScene2D(function* (view) {
     // recalculate point positions
     for (let i = 0; i < pointSamples; ++i) {
       points[i] = [i * pointDistance, pointOffsetY() + Math.sin(i * 0.075) * altitude()];
+      linePoints[i] = [i * pointDistance, 0];
     }
     return points;
   });
@@ -103,6 +111,21 @@ export default makeScene2D(function* (view) {
           closed={true}
           size={25}
         />
+        
+      
+        <Layout>
+          {range(linePoints.length).map(index => (index > 103 && index < 190) ? (
+            <Line
+            x={-520}
+            lineWidth={4}
+            stroke={() => new Color('#50BD6A').alpha(lineAlpha())}
+            points={() => [
+              lineFuncPoints()[index],
+              linePoints[index]
+            ]}
+            />
+          ) : '')}
+        </Layout>
         <Line // x axis
           ref={xAxis}
           lineWidth={10}
@@ -156,32 +179,26 @@ export default makeScene2D(function* (view) {
             size={75}
             position={() => lineFunc().getPointAtPercentage(pointPercentage()).position.sub([420, 0])}
         />
-        <Line // y value between 0 and 1 indicator
-           ref={yValueBoundaries}
-           lineWidth={20}
-           startArrow={true}
-           endArrow={true}
-           lineDash={[25, 25]}
-           points={() => [
-            [500, 0],
-            [500, yBoundaryPercentage() * (-maxAltitude * 2 - 100.0) * graphYLength()]
-            ]}
-           stroke={'#50BD6A'}
-        />
       </Layout>
-      <CodeBlock
-        ref={formula}
-        fontFamily={fontFamily}
-        fontSize={70}
-        language='gdscript'
-        code={``}
-        y={260}
-      />
+      
+      <Txt
+           ref={areaDescription}
+           text={"one day = 2 * PI"}
+           fontFamily={fontFamily}
+           fontWeight={fontWeight}
+           fontSize={60}
+           fill={() => new Color('#50BD6A').alpha(areaDescriptionAlpha())}
+           y={-700}
+           x={-150}
+        />
     </Layout>
    );
 
+   lineFunc().x(lineFunc().x() - 100.0);
+   pointOffsetY(-maxAltitude);
 
-   const setupDuration = 4;
+
+   const setupDuration = useDuration('setup-divide-into-chunks');
    yield* all(
      layout().scale(1.5, setupDuration),
      gridColor('#252a31ff', setupDuration),
@@ -207,8 +224,55 @@ export default makeScene2D(function* (view) {
   */
    const gradientXAlpha = useDuration('gradient-x-alpha');
    yield* all(
+     gradientAlpha(1.0, gradientXAlpha),
      graphXLabelAlpha(1.0, gradientXAlpha),
-     altitude(1.0, gradientXAlpha)
+     altitude(maxAltitude, gradientXAlpha),
+   );
+
+   const zoomIn = useDuration('zoom-in');
+
+   yield* all(
+    layout().scale(2.8, zoomIn),
+    layout().x(-750, zoomIn),
+    layout().y(970, zoomIn),
+    graphXAlpha(0.0, zoomIn),
+    graphXLabelAlpha(0.0, zoomIn)
+   );
+
+   const divideIntoSegments = useDuration('divide-into-segments');
+   yield* lineAlpha(1.0, divideIntoSegments);
+
+   const showXAgain = useDuration('show-x-again');
+   yield* all(
+    layout().scale(2, showXAgain),
+    layout().x(-150, showXAgain),
+    layout().y(700, showXAgain),
+    graphXAlpha(1.0, showXAgain),
+    graphXLabelAlpha(1.0, showXAgain)
+   );
+
+   yield* waitFor(2.0);
+   yield* areaDescriptionAlpha(1.0, 1.0);
+   yield* waitFor(3.0);
+
+   const fadeOutTime = useDuration('fade-out-all-segments');
+   yield* chain(
+    all(
+      graphXLabelAlpha(0.0, fadeOutTime / 3),
+      graphYLabelAlpha(0.0, fadeOutTime / 3),
+    ),
+    all(
+      lineAlpha(0.0, fadeOutTime / 3), 
+      areaDescriptionAlpha(0.0, fadeOutTime / 3)
+    ),
+    all(
+      altitude(0.0, fadeOutTime / 3),
+      graphXLength(0.0, fadeOutTime / 3),
+      graphYLength(0.0, fadeOutTime / 3),
+      gradientAlpha(0.0, fadeOutTime / 3),
+      graphXAlpha(0.0, fadeOutTime / 3),
+      graphYAlpha(0.0, fadeOutTime / 3)
+    ),
    );
 
 });

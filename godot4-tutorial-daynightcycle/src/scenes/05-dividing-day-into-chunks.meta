@@ -2,12 +2,32 @@
   "version": 0,
   "timeEvents": [
     {
+      "name": "setup-divide-into-chunks",
+      "targetTime": 0.5781128913871532
+    },
+    {
       "name": "label-alpha-duration",
-      "targetTime": 5.1084070575298615
+      "targetTime": 1.098287353916271
     },
     {
       "name": "gradient-x-alpha",
-      "targetTime": 9.575243664717345
+      "targetTime": 1.717019036089538
+    },
+    {
+      "name": "zoom-in",
+      "targetTime": 2.681801362275373
+    },
+    {
+      "name": "divide-into-segments",
+      "targetTime": 9.96278346513759
+    },
+    {
+      "name": "show-x-again",
+      "targetTime": 12.880483228897788
+    },
+    {
+      "name": "fade-out-all-segments",
+      "targetTime": 21.8413455754265
     }
   ],
   "seed": 446268694

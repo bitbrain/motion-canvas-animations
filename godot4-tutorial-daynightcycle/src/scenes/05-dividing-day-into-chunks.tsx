@@ -70,6 +70,28 @@ export default makeScene2D(function* (view) {
     ],
   });
 
+  const fillGradient = new Gradient({
+    type: 'linear',
+    from: () => [0, 200 + pointOffsetY()],
+    to: () => [0, -500 + pointOffsetY()],
+    stops: [
+      {offset: 0.0, color: () => new Color('#49d4b4').alpha(lineAlpha())},
+      {offset: 0.4, color: () => new Color('#4fda70').alpha(lineAlpha())},
+      {offset: 0.7, color: () => new Color('#95f564').alpha(lineAlpha())}
+    ],
+  });
+
+  const descriptionGradient = new Gradient({
+    type: 'linear',
+    from: () => [0, 50],
+    to: () => [0, -20],
+    stops: [
+      {offset: 0.0, color: () => new Color('#49d4b4').alpha(areaDescriptionAlpha())},
+      {offset: 0.4, color: () => new Color('#4fda70').alpha(areaDescriptionAlpha())},
+      {offset: 0.7, color: () => new Color('#95f564').alpha(areaDescriptionAlpha())}
+    ],
+  });
+
   // Point options
   const pointAlpha = createSignal(0.0);
   const pointColor = () => new Color('#ffffff').alpha(pointAlpha());
@@ -117,8 +139,8 @@ export default makeScene2D(function* (view) {
           {range(linePoints.length).map(index => (index > 103 && index < 190) ? (
             <Line
             x={-520}
-            lineWidth={4}
-            stroke={() => new Color('#50BD6A').alpha(lineAlpha())}
+            lineWidth={7}
+            stroke={fillGradient}
             points={() => [
               lineFuncPoints()[index],
               linePoints[index]
@@ -187,7 +209,7 @@ export default makeScene2D(function* (view) {
            fontFamily={fontFamily}
            fontWeight={fontWeight}
            fontSize={60}
-           fill={() => new Color('#50BD6A').alpha(areaDescriptionAlpha())}
+           fill={descriptionGradient}
            y={-700}
            x={-150}
         />

@@ -38,14 +38,14 @@ export default makeProject({
 });
 /* */
 
-/* 5. DIVIDE DAY INTO CHUNKS */
+/* 5. DIVIDE DAY INTO CHUNKS 
 export default makeProject({
   scenes: [divideday],
   audio:divideday_audio
 });
 /* */
 
-/* 6. SIGNAL UP CALL DOWN
+/* 6. SIGNAL UP CALL DOWN */
 export default makeProject({
   scenes: [signalupcalldown],
   audio:signalupcalldown_audio

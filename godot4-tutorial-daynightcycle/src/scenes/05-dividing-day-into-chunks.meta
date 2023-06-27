@@ -19,15 +19,15 @@
     },
     {
       "name": "divide-into-segments",
-      "targetTime": 9.96278346513759
+      "targetTime": 7.382674662998134
     },
     {
       "name": "show-x-again",
-      "targetTime": 12.880483228897788
+      "targetTime": 11.97662345744766
     },
     {
       "name": "fade-out-all-segments",
-      "targetTime": 21.8413455754265
+      "targetTime": 22.06493197240384
     }
   ],
   "seed": 446268694

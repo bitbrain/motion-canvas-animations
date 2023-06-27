@@ -1,5 +1,5 @@
-import {Grid, Layout, makeScene2D, Line, Txt} from '@motion-canvas/2d/lib';
-import {waitFor} from '@motion-canvas/core';
+import { Grid, Layout, makeScene2D, Line, Txt } from '@motion-canvas/2d/lib';
+import { waitFor } from '@motion-canvas/core';
 
 export default makeScene2D(function* (view) {
 
@@ -7,10 +7,10 @@ export default makeScene2D(function* (view) {
 
    view.add(
       <Layout>
-          <Txt
-             text={"show caption: measuring time"}
-          />
+         <Txt
+            text={"show caption: measuring time"}
+         />
       </Layout>);
-  
+
    yield* waitFor(4.0);
 });

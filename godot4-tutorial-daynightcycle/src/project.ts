@@ -18,7 +18,7 @@ import signalupcalldown_audio from '../audio/05-signal-up-call-down.wav';
 import emitsignalonly_audio from '../audio/06-call-signal-only-when-updating.wav';
 import setterbehavior_audio from '../audio/07-setter-skipped-in-ready-function.wav';
 
-/* 1. SETUP 
+/* 1. SETUP */
 export default makeProject({
   scenes: [setup],
   audio:setup_audio
@@ -45,7 +45,7 @@ export default makeProject({
 });
 /* */
 
-/* 6. SIGNAL UP CALL DOWN */
+/* 6. SIGNAL UP CALL DOWN 
 export default makeProject({
   scenes: [signalupcalldown],
   audio:signalupcalldown_audio

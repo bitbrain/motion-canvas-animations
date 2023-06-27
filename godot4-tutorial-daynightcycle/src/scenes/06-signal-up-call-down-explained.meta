@@ -1,5 +1,14 @@
 {
   "version": 0,
-  "timeEvents": [],
+  "timeEvents": [
+    {
+      "name": "fade-in-duration-signal-up",
+      "targetTime": 4.876727518204137
+    },
+    {
+      "name": "fade-in-duration-call-down",
+      "targetTime": 5.614360262585344
+    }
+  ],
   "seed": 600935287
 }
